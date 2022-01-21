@@ -1,0 +1,29 @@
+version: "3"
+
+services:
+  app:
+    tty: true
+    image: python:3.9-alpine
+    ports: 
+      - '8000:8000'
+    volumes: 
+      - ./app:/app
+    environment: 
+        - DB_HOST=postgres
+        - DB_NAME=postgres
+        - DB_USER=postgres
+        - DB_PASS=postgrespassword
+    depends_on: 
+        - db
+  
+  db:
+    image: postgres:14
+    restart: always
+    volumes:
+      - ./data/db:/var/lib/postgresql/data
+    environment:
+      POSTGRES_PASSWORD: postgrespassword
+  
+volumes:
+  db:
+  app:
